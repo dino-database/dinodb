@@ -8,15 +8,17 @@ import sys
 import uvicorn
 import logging
 
+load_dotenv()
+
+db_version = os.getenv("DB_VERSION")
+stage = os.getenv("STAGE", "PROD")
+
 app = FastAPI(
     title="DinoDB API",
     version="1.0.0",
-    # docs_url=None,
-    redoc_url=None
+    docs_url=None if stage == "PROD" else "/docs",
+    redoc_url=None if stage == "PROD" else "/redoc"
 )
-
-load_dotenv()
-db_version = os.getenv("DB_VERSION")
 
 # Disable Uvicorn's default logging
 logging.getLogger("uvicorn.access").propagate = False
