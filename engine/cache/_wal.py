@@ -2,8 +2,10 @@ import os
 import json
 import uuid
 
+from loguru import logger
+
 class WriteAheadLog:
-    def __init__(self, log_file="data/cache/wal.log", max_size=10*1024*1024):
+    def __init__(self, log_file="../data/cache/wal.log", max_size=10*1024*1024):
         self.log_file = log_file
         self.max_size = max_size
 
@@ -42,6 +44,8 @@ class WriteAheadLog:
         return log_entries
     
     def recover_from_log(self, engine):
+        
+        logger.info("Loading data from WAL...")
 
         if not os.path.exists(self.log_file):
             return

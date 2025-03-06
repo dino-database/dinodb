@@ -4,13 +4,14 @@ from loguru import logger
 from dotenv import load_dotenv
 
 import os
+import sys
 import uvicorn
 import logging
 
 app = FastAPI(
     title="DinoDB API",
     version="1.0.0",
-    docs_url=None,
+    # docs_url=None,
     redoc_url=None
 )
 
@@ -24,6 +25,7 @@ logging.getLogger("uvicorn.error").propagate = False
 # Set up Loguru as the logger
 logger.remove()  # Remove default handler
 logger.add("data/logs/dinodb.log", format="{time} {level} {message}", level="INFO", rotation="10 MB")
+logger.add(sys.stderr, format="<green>{time}</green> <level>{level}</level> <cyan>{message}</cyan>", level="INFO")
 
 app.include_router(api_router)
 

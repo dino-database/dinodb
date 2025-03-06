@@ -2,7 +2,7 @@ import os
 import json
 
 class SSTable:
-    def __init__(self, base_dir="data/sstables", file_prefix="sstable"):
+    def __init__(self, base_dir="../data/sstables", file_prefix="sstable"):
         self.base_dir = base_dir
         os.makedirs(self.base_dir, exist_ok=True)
         self.file_prefix = file_prefix

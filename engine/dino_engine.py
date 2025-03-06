@@ -1,11 +1,11 @@
-from internal._skip_list import SkipList
-from internal._sstable import SSTable
-from cache._wal import WriteAheadLog
+from .internal._skip_list import SkipList
+from .internal._sstable import SSTable
+from .cache._wal import WriteAheadLog
 import uuid
 import os
 
 class DinoEngine:
-    def __init__(self, max_memtable_size=1*1024*1024):
+    def __init__(self, max_memtable_size=10*1024*1024):
         self.sl = SkipList()
         self.wal = WriteAheadLog()
         self.sstable = SSTable()
