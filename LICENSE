@@ -1,0 +1,22 @@
+Server Side Public License (SSPL)
+
+Version 1, February 2023
+
+Copyright (c) 2025 Deyan Sirakov
+
+Permission is hereby granted, free of charge, to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit others to do so, subject to the following conditions:
+
+1. The source code of the Software, including any modifications made to the Software, must be made available to the recipients of the Software, either by providing them with a copy of the source code or by making it available online, such as in a public repository.
+
+2. If you provide the Software as a service to users over a network (a "Service"), you must:
+   a. Provide the source code of the Software (including any modifications) to the users of the Service under the terms of this license.
+   b. Ensure that users can download and modify the source code.
+
+3. The Software is provided "as is", without any warranty of any kind, either express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, or non-infringement. In no event shall the copyright holder or contributors be liable for any claim, damages, or other liability, whether in an action of contract, tort, or otherwise, arising from, out of, or in connection with the Software or the use or other dealings in the Software.
+
+4. This license does not grant you any rights to use the trademarks, service marks, or logos of the copyright holder.
+
+5. If you modify the Software and distribute it, you must document the changes you made.
+
+6. The SSPL may be updated from time to time, and any changes will be communicated by the copyright holder. You may use the Software only under the version of the SSPL that is in effect when you first use it.
+
