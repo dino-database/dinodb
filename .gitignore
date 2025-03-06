@@ -1,0 +1,55 @@
+# Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.pyc
+
+# FastAPI
+*.sqlite3
+*.log
+
+# Virtual Environment
+venv/
+env/
+.venv/
+.env/
+
+# Docker
+.docker/
+docker-compose.yml
+
+# VS Code
+.vscode/
+
+# PyCharm
+.idea/
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+*.log.*
+
+# Build files
+build/
+dist/
+*.egg-info/
+
+# pytest
+.cache/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# MySQL
+*.sql
+
+# Misc
+*.bak
+*.swp
+
+# Secret keys (if you have them in .env files or somewhere)
+.env
