@@ -5,7 +5,7 @@ import uuid
 from loguru import logger
 
 class WriteAheadLog:
-    def __init__(self, log_file="../data/cache/wal.log", max_size=10*1024*1024):
+    def __init__(self, log_file="data/cache/wal.log", max_size=10*1024*1024):
         self.log_file = log_file
         self.max_size = max_size
 
