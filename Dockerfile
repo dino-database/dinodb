@@ -1,41 +1,30 @@
-# Stage 1: Build stage
-FROM python:3.11-slim as builder
+# Use the official Python image as the base image
+FROM python:3.9-slim
 
-# Set the working directory
+# Set environment variables
+ENV PYTHONUNBUFFERED=1
+
+# Create a non-root user and group
+RUN groupadd -r appuser && useradd -r -g appuser appuser
+
+# Create and set the working directory
 WORKDIR /app
-
-# Install build dependencies
-RUN apt-get update && apt-get install -y build-essential
 
 # Copy the requirements file and install dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the application source code
+# Copy the application code
 COPY . .
 
-# Stage 2: Runtime stage
-FROM python:3.11-slim
+# Create the /app/data directory and set appropriate permissions
+RUN mkdir -p /app/data && chown -R appuser:appuser /app/data
 
-# Set the working directory
-WORKDIR /app
-
-# Install runtime dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy only the necessary files from the build stage
-COPY --from=builder /app /app
-
-# Expose the port FastAPI runs on
-EXPOSE 8000
-
-# Set Loguru to use JSON format (optional, for structured logging)
-ENV LOGURU_FORMAT="{\"time\": \"{time}\", \"level\": \"{level}\", \"message\": \"{message}\"}"
-
-# Create a non-root user
-RUN useradd -m appuser
+# Switch to the non-root user
 USER appuser
 
+# Expose the application port
+EXPOSE 8000
+
 # Command to run the application
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD [ "python", "main.py" ]

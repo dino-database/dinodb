@@ -16,8 +16,8 @@ stage = os.getenv("STAGE", "PROD")
 app = FastAPI(
     title="DinoDB API",
     version="1.0.0",
-    docs_url=None if stage == "PROD" else "/docs",
-    redoc_url=None if stage == "PROD" else "/redoc"
+    # docs_url=None if stage == "PROD" else "/docs",
+    # redoc_url=None if stage == "PROD" else "/redoc"
 )
 
 # Disable Uvicorn's default logging
