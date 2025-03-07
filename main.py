@@ -26,8 +26,17 @@ logging.getLogger("uvicorn.error").propagate = False
 
 # Set up Loguru as the logger
 logger.remove()  # Remove default handler
-logger.add("data/logs/dinodb.log", format="{time} {level} {message}", level="INFO", rotation="10 MB")
-logger.add(sys.stderr, format="<green>{time}</green> <level>{level}</level> <cyan>{message}</cyan>", level="INFO")
+
+# Add file logging
+logger.add("data/logs/dinodb.log", 
+           format="{time:YYYY-MM-DD HH:mm:ss} | {level} | {message}", 
+           level="INFO", 
+           rotation="10 MB")
+
+# Add console logging
+logger.add(sys.stderr, 
+           format="<green>{time:YYYY-MM-DD HH:mm:ss}</green> | <level>{level}</level> | <cyan>{message}</cyan>", 
+           level="INFO")
 
 app.include_router(api_router)
 
