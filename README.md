@@ -12,6 +12,14 @@ DinoDB is a high-performance, lightweight database designed to store and retriev
 
 To install DinoDB, simply clone the repository and install the necessary dependencies.
 
+## Using DinoDB with Docker
+
+You can pull the latest version of DinoDB (v1.1.1) from Docker Hub using the following command:
+
+```bash
+docker pull dinodb/dinodb:1.1.1
+```
+
 ### Prerequisites
 
 - Python 3.7+
@@ -34,10 +42,10 @@ To install DinoDB, simply clone the repository and install the necessary depende
    pip install -r requirements.txt
    ```
 
-   Or use Docker (optional):
+   Or use Docker (**suggested**):
 
    ```bash
-   docker build -t dinodb .
+   docker pull dinodb/dinodb
    ```
 
 ## Usage
@@ -53,10 +61,10 @@ python main.py
 Or if you're using Docker:
 
 ```bash
-docker run -p 8000:8000 dinodb
+docker run -p {your port}:8000 dinodb
 ```
 
-This will start the API at `http://127.0.0.1:8000`.
+This will start the API at `http://127.0.0.1:{your port}`.
 
 ### API Endpoints
 
