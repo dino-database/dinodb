@@ -21,7 +21,7 @@ async def get_data(key: str):
 async def update_data(key: str, request: DataInsertRequest):
     updated = service.update_data(key, request.value)
     if updated:
-        return { "message": f"updated {key}" }
+        return { "key": key, "value": request.value }
     raise HTTPException(status_code=404, detail="Unable to update the data")
 
 @router.delete("/delete/{key}")
