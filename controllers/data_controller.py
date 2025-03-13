@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from services.data_service import DataService
 from models.data_models import DataInsertRequest, DataResponse
+from models.query_model import QueryRequest
 
 router = APIRouter()
 service = DataService()
@@ -16,6 +17,15 @@ async def get_data(key: str):
     if value is None:
         raise HTTPException(status_code=404, detail="Key not found")
     return { "key": key, "value": value }
+
+@router.post("/query")
+async def query_data(request: QueryRequest):
+    try:
+        result = service.query_data(request)
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error querying data: {str(e)}")
+
 
 @router.patch("/update/{key}", response_model=DataResponse)
 async def update_data(key: str, request: DataInsertRequest):
