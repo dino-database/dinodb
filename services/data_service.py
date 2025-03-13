@@ -24,7 +24,6 @@ class DataService:
         data = []
         current = self.engine.sl.header.forward[0]
         while current:
-            print(f"Found data: 'key': {current.key}, 'value': {current.value}")
             data.append({"key": current.key, "value": current.value})
             current = current.forward[0]
 
@@ -32,17 +31,42 @@ class DataService:
         sstable_data = self._get_data_from_sstables()
         data.extend(sstable_data)
 
-        # Apply filters based on the request
         filtered_data = data
         for f in request.filters:
-            if f.operator == Operator.EQUALS:
-                filtered_data = [d for d in filtered_data if d.get(f.field) == f.value]
-            elif f.operator == Operator.GREATER_THAN:
-                filtered_data = [d for d in filtered_data if d.get(f.field, 0) > int(f.value)]
-            elif f.operator == Operator.LESS_THAN:
-                filtered_data = [d for d in filtered_data if d.get(f.field, 0) < int(f.value)]
-            elif f.operator == Operator.CONTAINS:
-                filtered_data = [d for d in filtered_data if f.value in d.get(f.field, '')]
+            field = f.field
+            operator = f.operator
+            filter_value = f.value
+
+            # Check if the field exists and handle None values
+            for d in filtered_data:
+                field_value = d.get(field)
+
+                # If the field does not exist or is None, skip this entry
+                if field_value is None:
+                    continue
+
+                # Convert filter_value to the appropriate type based on the field type (e.g., integer, float, string)
+                if isinstance(field_value, str) and isinstance(filter_value, str):
+                    # No conversion needed for string-based fields
+                    field_value = field_value
+                elif isinstance(field_value, (int, float)) and isinstance(filter_value, str):
+                    # Try to convert filter_value to number if needed
+                    try:
+                        filter_value = int(filter_value) if isinstance(field_value, int) else float(filter_value)
+                    except ValueError:
+                        continue  # Skip if conversion fails
+
+                if operator == "EQUALS":
+                    filtered_data = [d for d in filtered_data if d.get(field) == filter_value]
+                elif operator == "GREATER_THAN":
+                    # Handle GREATER_THAN (check if field_value is greater than filter_value)
+                    filtered_data = [d for d in filtered_data if field_value > filter_value]
+                elif operator == "LESS_THAN":
+                    # Handle LESS_THAN (check if field_value is less than filter_value)
+                    filtered_data = [d for d in filtered_data if field_value < filter_value]
+                elif operator == "CONTAINS":
+                    # Handle CONTAINS (check if filter_value is contained in field_value for string fields)
+                    filtered_data = [d for d in filtered_data if filter_value in str(field_value)]
 
         # Apply sorting if specified
         if request.sort:
