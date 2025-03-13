@@ -32,6 +32,18 @@ class DinoEngine:
         
         return self.search_in_sstables(key)
     
+    def update(self, key, val):
+        current_value = self.search(key)
+
+        if not current_value:
+            return False
+                
+        self.wal.write_log('update', key, current_value)
+        self.sl.insert(val, key)
+
+        return True
+
+    
     def delete(self, key):
         self.wal.write_log('delete', key)
         self.sl.delete(key)

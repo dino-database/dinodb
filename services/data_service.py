@@ -17,6 +17,13 @@ class DataService:
             logger.info(f"[+] Value found for key: {key}")
         return data
     
+    def update_data(self, key, value: dict) -> bool:
+        updated = self.engine.update(key, value)
+        if updated:
+            logger.info(f"[+] Updated data for: {key}")
+            return True
+        return False
+
     def delete_data(self, key: str):
         self.engine.delete(key)
         logger.info(f"[-] Deleted data for: {key}")
