@@ -74,6 +74,8 @@ class WriteAheadLog:
                     engine.sl.insert(value, key)
                 elif operation == "delete":
                     engine.sl.delete(key)
+                elif operation == "update":
+                    engine.sl.insert(value, key)
 
                 processed_keys.add(key)
 

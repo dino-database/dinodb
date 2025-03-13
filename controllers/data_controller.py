@@ -17,6 +17,13 @@ async def get_data(key: str):
         raise HTTPException(status_code=404, detail="Key not found")
     return { "key": key, "value": value }
 
+@router.patch("/update/{key}", response_model=DataResponse)
+async def update_data(key: str, request: DataInsertRequest):
+    updated = service.update_data(key, request.value)
+    if updated:
+        return { "message": f"updated {key}" }
+    raise HTTPException(status_code=404, detail="Unable to update the data")
+
 @router.delete("/delete/{key}")
 async def delete_data(key: str):
     service.delete_data(key)
