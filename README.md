@@ -1,8 +1,11 @@
 # DinoDB
 
 ![Docker Pulls](https://img.shields.io/docker/pulls/dinodb/dinodb?label=Downloads&logo=docker)
+![Docker Image Size](https://img.shields.io/docker/image-size/dinodb/dinodb/latest?label=Image%20Size)
+![Docker Version](https://img.shields.io/docker/v/dinodb/dinodb?label=Latest%20Version)
+![Security Scan](https://img.shields.io/badge/Security%20Scan-Passing-green)
 
-DinoDB is a high-performance, lightweight database designed to store and retrieve data efficiently. This project aims to provide a fast and reliable solution for handling database operations in a simple and scalable way.
+DinoDB is a high-performance, lightweight, **Privacy-Focused** database designed to store and retrieve data efficiently. This project aims to provide a fast and reliable solution for handling database operations in a simple and scalable way.
 
 ## Features
 

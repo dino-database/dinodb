@@ -20,6 +20,9 @@ COPY . .
 # Create the /app/data directory and set appropriate permissions
 RUN mkdir -p /app/data && chown -R appuser:appuser /app/data
 
+RUN echo "DB_VERSION=1.1.2" >> .env \
+    && echo "STAGE=PROD" >> .env
+
 # Switch to the non-root user
 USER appuser
 
