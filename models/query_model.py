@@ -13,6 +13,6 @@ class Sort(BaseModel):
 
 class QueryRequest(BaseModel):
     filters: List[Filter]
-    # sort: Optional[Sort] = None
-    # page: int = 0
-    # size: int = 20
+    sort: Optional[Sort] = None
+    page: int = 0
+    size: int = 20

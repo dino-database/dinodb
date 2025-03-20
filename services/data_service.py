@@ -53,30 +53,34 @@ class DataService:
                     except ValueError:
                         continue 
 
+                # TODO: Fix greater than and less than when there are numeric values
                 if operator == Operator.EQUALS:
-                    if filter_value == field_value:
+                    if field_value == filter_value:
                         response.append(d)
                 elif operator == Operator.GREATER_THAN:
-                    filtered_data = [d for d in filtered_data if field_value > filter_value]
-                elif operator == Operator.GREATER_THAN:
-                    filtered_data = [d for d in filtered_data if field_value < filter_value]
+                    if field_value > filter_value:
+                        response.append(d)
+                elif operator == Operator.LESS_THAN:
+                    if field_value < filter_value:
+                        response.append(d)
                 elif operator == Operator.CONTAINS:
-                    filtered_data = [d for d in filtered_data if filter_value in str(field_value)]
+                    if filter_value in str(field_value):
+                        response.append(d)
 
-        return response
+        # sort_field = request.sort.field
+        # # TODO: Fix the sorting algorithm
 
-        # # Apply sorting if specified
         # if request.sort:
-        #     filtered_data.sort(
+        #     response.sort(
         #         key=lambda x: x.get(request.sort.field),
         #         reverse=request.sort.order == SortOrder.DESC
         #     )
-
-        # # Paginate the results
-        # start = request.page * request.size
-        # end = start + request.size
-        # logger.info(f"[+] Queryed data: {len(filtered_data)} entries returned")
-        # return filtered_data[start:end]
+        
+        start = request.page * request.size
+        end = start + request.size
+        
+        logger.info(f"[+] Queryed data: {len(filtered_data)} entries returned")
+        return response[start:end]
     
     def _get_data_from_sstables(self):
         # Get data from all SSTables
