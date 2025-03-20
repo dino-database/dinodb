@@ -32,54 +32,51 @@ class DataService:
         data.extend(sstable_data)
 
         filtered_data = data
+        response = []
         for f in request.filters:
             field = f.field
             operator = f.operator
             filter_value = f.value
 
-            # Check if the field exists and handle None values
             for d in filtered_data:
-                field_value = d.get(field)
+                extracted = d.get("value")
+                field_value = extracted.get(field)
 
-                # If the field does not exist or is None, skip this entry
                 if field_value is None:
                     continue
 
-                # Convert filter_value to the appropriate type based on the field type (e.g., integer, float, string)
                 if isinstance(field_value, str) and isinstance(filter_value, str):
-                    # No conversion needed for string-based fields
                     field_value = field_value
                 elif isinstance(field_value, (int, float)) and isinstance(filter_value, str):
-                    # Try to convert filter_value to number if needed
                     try:
                         filter_value = int(filter_value) if isinstance(field_value, int) else float(filter_value)
                     except ValueError:
-                        continue  # Skip if conversion fails
+                        continue 
 
-                if operator == "EQUALS":
-                    filtered_data = [d for d in filtered_data if d.get(field) == filter_value]
-                elif operator == "GREATER_THAN":
-                    # Handle GREATER_THAN (check if field_value is greater than filter_value)
+                if operator == Operator.EQUALS:
+                    if filter_value == field_value:
+                        response.append(d)
+                elif operator == Operator.GREATER_THAN:
                     filtered_data = [d for d in filtered_data if field_value > filter_value]
-                elif operator == "LESS_THAN":
-                    # Handle LESS_THAN (check if field_value is less than filter_value)
+                elif operator == Operator.GREATER_THAN:
                     filtered_data = [d for d in filtered_data if field_value < filter_value]
-                elif operator == "CONTAINS":
-                    # Handle CONTAINS (check if filter_value is contained in field_value for string fields)
+                elif operator == Operator.CONTAINS:
                     filtered_data = [d for d in filtered_data if filter_value in str(field_value)]
 
-        # Apply sorting if specified
-        if request.sort:
-            filtered_data.sort(
-                key=lambda x: x.get(request.sort.field),
-                reverse=request.sort.order == SortOrder.DESC
-            )
+        return response
 
-        # Paginate the results
-        start = request.page * request.size
-        end = start + request.size
-        logger.info(f"[+] Queryed data: {len(filtered_data)} entries returned")
-        return filtered_data[start:end]
+        # # Apply sorting if specified
+        # if request.sort:
+        #     filtered_data.sort(
+        #         key=lambda x: x.get(request.sort.field),
+        #         reverse=request.sort.order == SortOrder.DESC
+        #     )
+
+        # # Paginate the results
+        # start = request.page * request.size
+        # end = start + request.size
+        # logger.info(f"[+] Queryed data: {len(filtered_data)} entries returned")
+        # return filtered_data[start:end]
     
     def _get_data_from_sstables(self):
         # Get data from all SSTables
