@@ -23,13 +23,12 @@ class MetricsService:
         }
     
     def _database_metrics(self):
-
-        wal_size = self.engine.memory_usage()
-        memtable_size = "temp"
-        sstable_count = "temp"
+        wal_size = os.path.getsize("data/cache/wal.log") if os.path.exists("data/cache/wal.log") else 0
+        memtable_size = self.engine.memory_usage()
+        sstable_count = len([f for f in Path("data/sstables").glob("sstable_*.json")])
 
         return {
-            "total_entries": "temp", # memtable_size + sum(len(db.sstable.read_sstable(f"sstable_{i}.json")) for i in range(sstable_count)),
+            "total_entries": self.engine.get_entries_count(),
             "wal_file_size_bytes": wal_size,
             "memtable_size": memtable_size,
             "sstable_file_count": sstable_count,
@@ -53,17 +52,3 @@ class MetricsService:
         return {
             "database_metrics": self._database_metrics()
         }
-        
-        
-        # Database Metrics
-        #wal_size = os.path.getsize("wal.log") if os.path.exists("wal.log") else 0
-        #memtable_size = len(db.sl)  # Assuming 'db.sl' is your MemTable (SkipList)
-        #sstable_count = len([f for f in Path(".").glob("sstable_*.json")])
-
-        # return {
-            # "database_metrics": {
-            #     "total_entries": memtable_size + sum(len(db.sstable.read_sstable(f"sstable_{i}.json")) for i in range(sstable_count)),
-            #     "wal_file_size_bytes": wal_size,
-            #     "memtable_size": memtable_size,
-            #     "sstable_file_count": sstable_count,
-            # },

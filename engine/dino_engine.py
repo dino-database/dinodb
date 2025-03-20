@@ -32,6 +32,23 @@ class DinoEngine:
         
         return self.search_in_sstables(key)
     
+    def get_entries_count(self):
+        entries = 0
+
+        # memtable
+        current = self.sl.header.forward[0]
+        while current:
+            entries += 1
+            current = current.forward[0]
+
+        # sstables
+        sstable_files = os.listdir(self.sstable.base_dir)
+        for file in sstable_files:
+            # TODO: count the entries in the sstable
+            pass
+
+        return entries
+
     def update(self, key, val):
         current_value = self.search(key)
 
