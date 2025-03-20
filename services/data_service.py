@@ -79,7 +79,7 @@ class DataService:
         start = request.page * request.size
         end = start + request.size
         
-        logger.info(f"[+] Queryed data: {len(filtered_data)} entries returned")
+        logger.info(f"[+] Queryed data: {len(response)} entries returned")
         return response[start:end]
     
     def _get_data_from_sstables(self):
