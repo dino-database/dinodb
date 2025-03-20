@@ -8,6 +8,18 @@ class MetricsService:
     def __init__(self, engine):
         self.engine = engine
 
+    def get_metrics(self):
+        return { 
+            "database_metrics": self._database_metrics(), 
+            "system_metrics": self._system_metrics() 
+        }
+    
+    def get_system_metrics(self):
+        return { "system_metrics": self._system_metrics() }
+    
+    def get_database_metrics(self):
+        return { "database_metrics": self._database_metrics() }
+    
     def _system_metrics(self):
         memory_info = psutil.virtual_memory()
         cpu_usage = psutil.cpu_percent(interval=1)
@@ -32,23 +44,4 @@ class MetricsService:
             "wal_file_size_bytes": wal_size,
             "memtable_size": memtable_size,
             "sstable_file_count": sstable_count,
-        }
-
-    def get_metrics(self):
-
-        return { 
-            "database_metrics": self._database_metrics(), 
-            "system_metrics": self._system_metrics() 
-        }
-    
-    def get_system_metrics(self):
-        
-        return {
-            "system_metrics": self._system_metrics()
-        }
-    
-    def get_database_metrics(self):
-        
-        return {
-            "database_metrics": self._database_metrics()
         }

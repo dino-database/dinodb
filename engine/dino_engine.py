@@ -1,6 +1,7 @@
 from .internal._skip_list import SkipList
 from .internal._sstable import SSTable
 from .cache._wal import WriteAheadLog
+import json
 import uuid
 import os
 
@@ -35,17 +36,15 @@ class DinoEngine:
     def get_entries_count(self):
         entries = 0
 
-        # memtable
         current = self.sl.header.forward[0]
         while current:
             entries += 1
             current = current.forward[0]
 
-        # sstables
         sstable_files = os.listdir(self.sstable.base_dir)
         for file in sstable_files:
-            # TODO: count the entries in the sstable
-            pass
+            with open(file, 'r') as f:
+                entries += len(json.loads(f))
 
         return entries
 
