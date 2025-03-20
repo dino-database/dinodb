@@ -4,8 +4,8 @@ from models.enums.query_enums import Operator, SortOrder
 import os
 
 class DataService:
-    def __init__(self):
-        self.engine = DinoEngine()
+    def __init__(self, engine):
+        self.engine = engine
         logger.info("Engine created...")
 
     def add_data(self, value: dict) -> str:

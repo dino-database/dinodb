@@ -2,9 +2,10 @@ from fastapi import APIRouter, HTTPException
 from services.data_service import DataService
 from models.data_models import DataInsertRequest, DataResponse
 from models.query_model import QueryRequest
+from utility.config import database_engine
 
 router = APIRouter()
-service = DataService()
+service = DataService(database_engine)
 
 @router.post("/add", response_model=DataResponse)
 async def add_data(request: DataInsertRequest):
